@@ -358,7 +358,7 @@ body::before {
         <div class="field">
           <label>⭐ ¿Probaron algún franquero/a?</label>
           <div id="franqueros-container"></div>
-          <button class="btn-add" onclick="agregarFranquero()" style="margin-top:.5rem">+ Agregar franquero/a</button>
+          <button class="btn-add" id="btnAgregarFranquero" style="margin-top:.5rem">+ Agregar franquero/a</button>
         </div>
       </div>
     </div>
@@ -371,7 +371,7 @@ body::before {
       </div>
       <div class="card-body">
         <div id="pedidos-container"></div>
-        <button class="btn-add" onclick="agregarBloque('pedidos-container','PEDIDO')">+ Agregar artículo para pedir</button>
+        <button class="btn-add" id="btnAgregarPedido">+ Agregar artículo para pedir</button>
       </div>
     </div>
 
@@ -383,7 +383,7 @@ body::before {
       </div>
       <div class="card-body">
         <div id="repos-container"></div>
-        <button class="btn-add" onclick="agregarBloque('repos-container','REPOSICION')">+ Agregar artículo para reponer</button>
+        <button class="btn-add" id="btnAgregarRepo">+ Agregar artículo para reponer</button>
       </div>
     </div>
 
@@ -481,7 +481,7 @@ function agregarFranquero() {
   div.className = 'franquero-block';
   div.id = 'block-' + id;
   div.innerHTML =
-    '<button class="btn-remove" onclick="eliminarBloque('block-'+id+'')">✕ quitar</button>' +
+    '<button class="btn-remove" data-bid="block-'+id+'" onclick="quitarBloque(this)">✕ quitar</button>' +
     '<div class="franquero-block-title">Franquero/a ' + n + '</div>' +
     '<div class="franquero-field"><label>Nombre</label><input type="text" id="nombre-'+id+'" placeholder="Nombre del franquero/a..."></div>' +
     '<div class="franquero-eval">' +
@@ -522,7 +522,7 @@ function agregarBloque(containerId, tipo) {
   div.className = 'art-block';
   div.id = 'block-' + id;
   div.innerHTML =
-    '<button class="btn-remove" onclick="eliminarBloque(\'block-'+id+'\')">✕ quitar</button>' +
+    '<button class="btn-remove" data-bid="block-'+id+'" onclick="quitarBloque(this)">✕ quitar</button>' +
     '<div class="art-block-title">' + label + '</div>' +
     '<div class="art-grid">' +
       '<div class="art-field"><label>COD</label><input type="text" id="cod-'+id+'" placeholder="QK142" style="text-transform:uppercase"></div>' +
@@ -534,6 +534,11 @@ function agregarBloque(containerId, tipo) {
   document.getElementById(containerId).appendChild(div);
 }
 function eliminarBloque(id) {
+  var el = document.getElementById(id);
+  if (el) el.remove();
+}
+function quitarBloque(btn) {
+  var id = btn.getAttribute('data-bid');
   var el = document.getElementById(id);
   if (el) el.remove();
 }
