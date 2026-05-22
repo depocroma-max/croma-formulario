@@ -356,16 +356,9 @@ body::before {
           <input type="text" id="ausente" placeholder="Solo completar si aplica...">
         </div>
         <div class="field">
-          <label>⭐ ¿Probaron algún franquero/a? ¿A quién?</label>
-          <input type="text" id="franquero" placeholder="Solo completar si aplica...">
-        </div>
-        <div class="field">
-          <label>¿Les gustó cómo trabajó?</label>
-          <div class="radio-group">
-            <label class="radio-opt"><input type="radio" name="gustoFranquero" value="Si"> Sí</label>
-            <label class="radio-opt"><input type="radio" name="gustoFranquero" value="No"> No</label>
-            <label class="radio-opt"><input type="radio" name="gustoFranquero" value=""> No aplica</label>
-          </div>
+          <label>⭐ ¿Probaron algún franquero/a?</label>
+          <div id="franqueros-container"></div>
+          <button class="btn-add" onclick="agregarFranquero()" style="margin-top:.5rem">+ Agregar franquero/a</button>
         </div>
       </div>
     </div>
@@ -421,7 +414,7 @@ body::before {
 <script>
 var API_URL  = localStorage.getItem('croma_api_url') || '';
 var SUC_GUARDADA = localStorage.getItem('croma_sucursal') || '';
-var contadores = { pedidos: 0, repos: 0 };
+var contadores = { pedidos: 0, repos: 0, franqueros: 0 };
 
 // ── INIT ──
 (function(){
@@ -480,6 +473,44 @@ function cambiarSucursal() {
 }
 
 // ── BLOQUES ARTÍCULOS ──
+function agregarFranquero() {
+  contadores.franqueros++;
+  var n = contadores.franqueros;
+  var id = 'fran' + n;
+  var div = document.createElement('div');
+  div.className = 'franquero-block';
+  div.id = 'block-' + id;
+  div.innerHTML =
+    '<button class="btn-remove" onclick="eliminarBloque('block-'+id+'')">✕ quitar</button>' +
+    '<div class="franquero-block-title">Franquero/a ' + n + '</div>' +
+    '<div class="franquero-field"><label>Nombre</label><input type="text" id="nombre-'+id+'" placeholder="Nombre del franquero/a..."></div>' +
+    '<div class="franquero-eval">' +
+      '<label>¿Cómo trabajó?</label>' +
+      '<div class="eval-radio-group">' +
+        '<label class="eval-opt"><input type="radio" name="eval-'+id+'" value="Si"> 👍 Bien</label>' +
+        '<label class="eval-opt"><input type="radio" name="eval-'+id+'" value="Regular"> 😐 Regular</label>' +
+        '<label class="eval-opt"><input type="radio" name="eval-'+id+'" value="No"> 👎 No apto</label>' +
+      '</div>' +
+    '</div>';
+  document.getElementById('franqueros-container').appendChild(div);
+}
+
+function leerFranqueros() {
+  var result = [];
+  document.getElementById('franqueros-container').querySelectorAll('.franquero-block').forEach(function(b) {
+    var idB = b.id.replace('block-','');
+    var nombre = document.getElementById('nombre-'+idB);
+    if (nombre && nombre.value.trim()) {
+      var evalRadio = document.querySelector('input[name="eval-'+idB+'"]:checked');
+      result.push({
+        nombre: nombre.value.trim(),
+        eval: evalRadio ? evalRadio.value : ''
+      });
+    }
+  });
+  return result;
+}
+
 function agregarBloque(containerId, tipo) {
   var esRepo = tipo === 'REPOSICION';
   var key = esRepo ? 'repos' : 'pedidos';
@@ -557,8 +588,7 @@ async function enviarFormulario() {
     remitos: remitos, salidas: salidas, diferencia: diferencia,
     mantenimiento: document.getElementById('mantenimiento').value.trim(),
     ausente:       document.getElementById('ausente').value.trim(),
-    franquero:     document.getElementById('franquero').value.trim(),
-    gustoFranquero: getRadio('gustoFranquero'),
+    franqueros:    leerFranqueros(),
     pedidos:      leerBloques('ped','pedidos-container'),
     reposiciones: leerBloques('repo','repos-container')
   };
@@ -603,6 +633,8 @@ function nuevoFormulario() {
   document.getElementById('franquero').value = '';
   document.querySelectorAll('input[type=radio]').forEach(function(r){ r.checked = false; });
   document.getElementById('pedidos-container').innerHTML = '';
+  document.getElementById('franqueros-container').innerHTML = '';
+  contadores.franqueros = 0;
   document.getElementById('repos-container').innerHTML = '';
   contadores = { pedidos: 0, repos: 0 };
   document.getElementById('btnEnviar').disabled = false;
