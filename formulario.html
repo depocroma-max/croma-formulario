@@ -269,7 +269,7 @@ body::before {
   </div>
 
   <!-- Config API -->
-  <div class="config-banner" id="configBanner">
+  <div class="config-banner hidden" id="configBanner">
     ⚙ Primera vez: pegá la URL del Apps Script.
     <input type="text" id="inputApiUrl" placeholder="https://script.google.com/macros/s/.../exec">
     <button onclick="guardarApiUrl()">Guardar</button>
@@ -412,7 +412,7 @@ body::before {
 <div class="toast" id="toast"></div>
 
 <script>
-var API_URL  = localStorage.getItem('croma_api_url') || '';
+var API_URL  = 'https://script.google.com/macros/s/AKfycbx480OFDOoBWvIYY3dY5-yp04N6VzJktRa3xvvI_7t0Zq3l6LcMY-rW2pgcKjuj9Xwp/exec';
 var SUC_GUARDADA = localStorage.getItem('croma_sucursal') || '';
 var contadores = { pedidos: 0, repos: 0, franqueros: 0 };
 
