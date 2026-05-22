@@ -434,6 +434,11 @@ var contadores = { pedidos: 0, repos: 0, franqueros: 0 };
     document.getElementById('sucGuardadaVal').textContent = SUC_GUARDADA;
     document.getElementById('fieldSucursal').style.display = 'none';
   }
+
+  // Conectar botones de agregar
+  document.getElementById('btnAgregarFranquero').addEventListener('click', agregarFranquero);
+  document.getElementById('btnAgregarPedido').addEventListener('click', function(){ agregarBloque('pedidos-container','PEDIDO'); });
+  document.getElementById('btnAgregarRepo').addEventListener('click', function(){ agregarBloque('repos-container','REPOSICION'); });
 })();
 
 // ── CONFIG API ──
