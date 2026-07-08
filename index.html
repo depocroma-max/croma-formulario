@@ -10,119 +10,214 @@
 <title>Cierre de Caja · Croma</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="croma-ds.css?v=20260708-ds">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --black:    #0d0d0d;
-  --white:    #ffffff;
-  --gray-50:  #f7f7f5;
-  --gray-100: #efefec;
-  --gray-200: #ddddd8;
-  --gray-400: #a0a09a;
-  --gray-600: #666660;
-  --accent:   #e8251a;
-  --accent-light: #fde8e7;
-  --success:  #22c55e;
-  --font-display: 'Bebas Neue', sans-serif;
-  --font-body:    'DM Sans', sans-serif;
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 14px;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-}
 html { font-size: 16px; }
+
+/* Tamaños de ícono adicionales (croma-ds.css solo define 16/20/24) */
+.icon-12 { width: 12px; height: 12px; }
+.icon-14 { width: 14px; height: 14px; }
+.icon-18 { width: 18px; height: 18px; }
 body {
   font-family: var(--font-body);
-  background: var(--black);
+  background: var(--gray-50);
+  color: var(--black);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
-  padding: 2rem 1rem;
+  padding: 2rem 1rem 3rem;
 }
-body::before {
-  content: '';
-  position: fixed; inset: 0; z-index: 0;
-  background: radial-gradient(ellipse at 50% 100%, rgba(232,37,26,0.18) 0%, rgba(232,37,26,0.05) 40%, transparent 70%);
-  pointer-events: none;
+
+/* Focus visible (accesibilidad por teclado) */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible,
+textarea:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px; border-radius: var(--radius-sm);
 }
-.form-wrapper { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
-.form-logo { display: flex; align-items: center; gap: 14px; margin-bottom: 1.75rem; padding: 0 .25rem; }
-.form-logo img { height: 32px; }
-.form-logo-text { font-family: var(--font-display); font-size: 26px; letter-spacing: 3px; color: var(--white); }
-.form-logo-sub { font-size: 12px; color: var(--gray-400); margin-top: 1px; }
-.config-banner { background: rgba(232,37,26,.12); border: 1px solid rgba(232,37,26,.3); border-radius: var(--radius-md); padding: 12px 16px; display: flex; align-items: center; gap: 10px; font-size: 13px; color: #fca5a5; margin-bottom: 1.25rem; flex-wrap: wrap; }
+
+.form-wrapper { max-width: 720px; margin: 0 auto; }
+
+/* ── MARCA ── */
+.form-logo { display: flex; align-items: center; gap: 14px; margin-bottom: 1.5rem; padding: 0 .25rem; }
+.form-logo img { height: 34px; }
+.form-logo-text { font-family: var(--font-display); font-size: 26px; letter-spacing: 3px; color: var(--black); }
+.form-logo-sub { font-size: 12px; color: var(--text-secondary); margin-top: 1px; }
+
+/* ── ALERT DE CONFIGURACIÓN (patrón .alert del DS) ── */
+.config-banner {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 12px 14px; margin-bottom: 1.25rem;
+  border-radius: var(--radius-md); border-left: 3px solid var(--warning);
+  background: var(--warning-bg); color: #78350f; font-size: 13px;
+}
 .config-banner.hidden { display: none; }
-.config-banner input { flex: 1; min-width: 200px; padding: 6px 10px; border: 1px solid rgba(232,37,26,.4); border-radius: var(--radius-sm); font-size: 13px; font-family: var(--font-body); background: rgba(255,255,255,.07); color: var(--white); }
-.config-banner input::placeholder { color: rgba(255,255,255,.3); }
-.config-banner button { padding: 6px 14px; background: var(--accent); color: var(--white); border: none; border-radius: var(--radius-sm); font-size: 13px; font-family: var(--font-body); cursor: pointer; }
-.suc-guardada { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); border-radius: var(--radius-md); padding: 10px 16px; margin-bottom: 1.25rem; }
-.suc-guardada-label { font-size: 12px; color: var(--gray-400); }
-.suc-guardada-val { font-family: var(--font-display); font-size: 16px; letter-spacing: 1px; color: var(--white); }
-.suc-guardada-btn { font-size: 12px; color: var(--gray-600); background: none; border: none; cursor: pointer; text-decoration: underline; }
-.suc-guardada-btn:hover { color: var(--gray-400); }
+.config-banner .card-icon-inline { flex-shrink: 0; color: var(--warning); }
+.config-banner input {
+  flex: 1; min-width: 200px; padding: 8px 12px;
+  border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm);
+  font-size: 13px; font-family: var(--font-body); background: var(--white); color: var(--black);
+}
+.config-banner input::placeholder { color: var(--gray-400); }
+.config-banner button {
+  padding: 8px 16px; background: var(--accent); color: var(--white);
+  border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600;
+  font-family: var(--font-body); cursor: pointer; transition: background-color .15s;
+}
+.config-banner button:hover { background: #d01f15; }
+
+/* ── SUCURSAL GUARDADA ── */
+.suc-guardada {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--white); border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md); padding: 10px 16px; margin-bottom: 1.25rem;
+}
 .suc-guardada.hidden { display: none; }
-.card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.09); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 1rem; backdrop-filter: blur(4px); }
-.card-header { background: rgba(232,37,26,.15); border-bottom: 1px solid rgba(232,37,26,.2); padding: 1rem 1.5rem; }
-.card-header h2 { font-family: var(--font-display); font-size: 18px; letter-spacing: 1px; color: var(--white); }
-.card-header p { font-size: 12px; color: var(--gray-400); margin-top: 3px; }
-.card-body { padding: 1.25rem 1.5rem; }
+.suc-guardada-label { font-size: 12px; color: var(--text-secondary); }
+.suc-guardada-val { font-family: var(--font-display); font-size: 18px; letter-spacing: 1px; color: var(--black); }
+.suc-guardada-btn {
+  font-size: 12px; color: var(--text-secondary); background: none; border: none;
+  cursor: pointer; text-decoration: underline; transition: color .15s;
+}
+.suc-guardada-btn:hover { color: var(--black); }
+
+/* ── CARDS (patrón form-card, ya usado en fichar/kiosco) ── */
+.card {
+  background: var(--white); border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+.card-header { padding: 1rem 1.25rem; border-bottom: 1px solid var(--gray-100); display: flex; align-items: center; gap: 12px; }
+.card-header-icon {
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: 34px; height: 34px; border-radius: var(--radius-md);
+  background: var(--danger-bg); color: var(--accent);
+}
+.card-header-text h2 { font-family: var(--font-display); font-size: 18px; letter-spacing: 1px; color: var(--black); }
+.card-header-text p { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+.card-body { padding: 1.25rem; }
+
+/* ── CAMPOS (usan .form-control / .form-select / .form-textarea del DS) ── */
 .field { margin-bottom: 1.1rem; }
-.field label { font-size: 11px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; color: var(--gray-400); display: block; margin-bottom: 6px; }
+.field label {
+  font-size: 11px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase;
+  color: var(--text-secondary); display: flex; align-items: center; gap: 6px; margin-bottom: 6px;
+}
+.field label .field-icon { flex-shrink: 0; color: var(--accent); }
 .req { color: var(--accent); }
-.field input[type=text], .field input[type=date], .field select, .field textarea { width: 100%; padding: 10px 14px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-md); font-family: var(--font-body); font-size: 14px; color: var(--white); transition: border .15s; }
-.field input::placeholder, .field textarea::placeholder { color: rgba(255,255,255,.25); }
-.field select option { background: #1a1a1a; color: var(--white); }
-.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: rgba(232,37,26,.6); background: rgba(255,255,255,.09); }
-.field textarea { resize: vertical; min-height: 60px; padding: 10px 14px; }
-.hint { font-size: 11px; color: var(--gray-600); margin-top: 4px; }
+.hint { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.hint button {
+  background: none; border: none; color: var(--accent); cursor: pointer;
+  font-size: 12px; font-family: inherit; text-decoration: underline; padding: 0;
+}
+
 .radio-group { display: flex; gap: 20px; flex-wrap: wrap; }
-.radio-opt { display: flex; align-items: center; gap: 7px; font-size: 14px; color: var(--white); cursor: pointer; }
+.radio-opt { display: flex; align-items: center; gap: 7px; font-size: 14px; color: var(--black); cursor: pointer; }
 .radio-opt input { accent-color: var(--accent); width: 16px; height: 16px; }
+
 .section-divider { display: flex; align-items: center; gap: 10px; margin: 1.5rem 0 1rem; }
-.section-divider span { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--gray-600); white-space: nowrap; }
-.section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,.08); }
-.art-block { border: 1px solid rgba(255,255,255,.1); border-radius: var(--radius-md); padding: .875rem; margin-bottom: .75rem; background: rgba(255,255,255,.03); }
-.art-block-title { font-size: 10px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; margin-bottom: .75rem; }
-.franquero-block { border: 1px solid rgba(255,255,255,.1); border-radius: var(--radius-md); padding: .875rem; margin-bottom: .75rem; background: rgba(255,255,255,.03); }
-.franquero-block-title { font-size: 10px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; margin-bottom: .75rem; }
-.franquero-field { margin-bottom: .75rem; }
-.franquero-field label { font-size: 10px; color: var(--gray-600); display: block; margin-bottom: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
-.franquero-field input { width: 100%; padding: 7px 10px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-sm); font-size: 13px; font-family: var(--font-body); color: var(--white); }
-.franquero-field input::placeholder { color: rgba(255,255,255,.2); }
-.franquero-field input:focus { outline: none; border-color: rgba(232,37,26,.5); }
-.franquero-eval label { font-size: 10px; color: var(--gray-600); display: block; margin-bottom: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+.section-divider span { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; }
+.section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: var(--gray-200); }
+
+/* ── SUB-BLOQUES (franquero / artículo) ── */
+.art-block, .franquero-block {
+  border: 1px solid var(--gray-200); border-radius: var(--radius-md);
+  padding: .875rem; margin-bottom: .75rem; background: var(--gray-50);
+}
+.art-block-title, .franquero-block-title {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 10px; font-weight: 700; color: var(--accent);
+  text-transform: uppercase; letter-spacing: .06em; margin-bottom: .75rem;
+}
+.franquero-field, .art-field, .obs-field { margin-bottom: .75rem; }
+.franquero-field:last-child, .art-field:last-child, .obs-field:last-child { margin-bottom: 0; }
+.franquero-field label, .art-field label, .obs-field label {
+  font-size: 10px; color: var(--text-secondary); display: block; margin-bottom: 4px;
+  font-weight: 600; text-transform: uppercase; letter-spacing: .04em;
+}
+.franquero-field input, .art-field input, .obs-field input {
+  width: 100%; padding: 8px 10px; background: var(--white);
+  border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm);
+  font-size: 13px; font-family: var(--font-body); color: var(--black);
+  transition: border-color .15s;
+}
+.franquero-field input::placeholder, .art-field input::placeholder, .obs-field input::placeholder { color: var(--gray-300); }
+.franquero-field input:focus, .art-field input:focus, .obs-field input:focus {
+  outline: none; border-color: var(--accent);
+}
+.franquero-eval label { font-size: 10px; color: var(--text-secondary); display: block; margin-bottom: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
 .eval-radio-group { display: flex; gap: 14px; flex-wrap: wrap; }
-.eval-opt { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--white); cursor: pointer; }
+.eval-opt { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--black); cursor: pointer; }
 .eval-opt input { accent-color: var(--accent); width: 15px; height: 15px; }
 .art-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.art-field label { font-size: 10px; color: var(--gray-600); display: block; margin-bottom: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
-.art-field input { width: 100%; padding: 7px 10px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-sm); font-size: 13px; font-family: var(--font-body); color: var(--white); transition: border .15s; }
-.art-field input::placeholder { color: rgba(255,255,255,.2); }
-.art-field input:focus { outline: none; border-color: rgba(232,37,26,.5); }
-.obs-field { margin-top: 8px; }
-.obs-field label { font-size: 10px; color: var(--gray-600); display: block; margin-bottom: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
-.obs-field input { width: 100%; padding: 7px 10px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-sm); font-size: 13px; font-family: var(--font-body); color: var(--white); }
-.obs-field input::placeholder { color: rgba(255,255,255,.2); }
-.obs-field input:focus { outline: none; border-color: rgba(232,37,26,.5); }
-.btn-remove { float: right; font-size: 11px; color: var(--gray-600); background: none; border: none; cursor: pointer; padding: 0 0 .5rem; }
+
+.btn-remove {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600; color: var(--text-muted);
+  background: none; border: none; cursor: pointer; padding: 0;
+  transition: color .15s;
+}
 .btn-remove:hover { color: var(--accent); }
-.btn-add { display: flex; align-items: center; gap: 6px; justify-content: center; width: 100%; padding: 8px 14px; margin-top: .25rem; font-size: 12px; color: var(--gray-400); background: none; border: 1px dashed rgba(255,255,255,.15); border-radius: var(--radius-md); cursor: pointer; transition: all .15s; font-family: var(--font-body); }
-.btn-add:hover { border-color: rgba(232,37,26,.5); color: var(--accent); background: rgba(232,37,26,.05); }
-.btn-submit { width: 100%; padding: 14px; background: var(--accent); border: none; border-radius: var(--radius-md); font-family: var(--font-display); font-size: 20px; letter-spacing: 2px; color: var(--white); cursor: pointer; transition: opacity .15s; }
-.btn-submit:hover { opacity: .88; }
-.btn-submit:disabled { opacity: .45; cursor: not-allowed; }
-.spinner { display: none; width: 18px; height: 18px; margin: 0 auto; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; }
+.btn-remove svg { width: 12px; height: 12px; }
+
+/* ── BOTONES (extienden .btn del DS) ── */
+.btn-add {
+  display: flex; align-items: center; gap: 6px; justify-content: center;
+  width: 100%; padding: 10px 14px; margin-top: .25rem;
+  font-size: 13px; font-weight: 600; color: var(--text-secondary);
+  background: none; border: 1.5px dashed var(--gray-200); border-radius: var(--radius-md);
+  cursor: pointer; font-family: var(--font-body);
+  transition: border-color .15s, color .15s, background-color .15s;
+}
+.btn-add:hover { border-color: var(--accent); color: var(--accent); background: var(--danger-bg); }
+
+.btn-submit {
+  width: 100%; padding: 15px; background: var(--accent); border: none;
+  border-radius: var(--radius-md); font-family: var(--font-display);
+  font-size: 20px; letter-spacing: 2px; color: var(--white); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  box-shadow: 0 4px 14px rgba(232,37,26,.28);
+  transition: background-color .15s, transform .1s;
+}
+.btn-submit:hover:not(:disabled) { background: #d01f15; }
+.btn-submit:active:not(:disabled) { transform: scale(.99); }
+.btn-submit:disabled { opacity: .5; cursor: not-allowed; box-shadow: none; }
+
+.spinner {
+  display: none; width: 18px; height: 18px;
+  border: 2px solid rgba(255,255,255,.35); border-top-color: #fff;
+  border-radius: 50%; animation: spin .7s linear infinite;
+}
 @keyframes spin { to { transform: rotate(360deg); } }
-.toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: var(--black); color: var(--white); padding: 12px 20px; border-radius: var(--radius-md); font-size: 13px; box-shadow: 0 4px 16px rgba(0,0,0,.3); opacity: 0; transform: translateY(8px); transition: all .25s; pointer-events: none; z-index: 999; }
+
+/* ── TOAST (patrón a nivel app; usa textContent, sin ícono) ── */
+.toast {
+  position: fixed; bottom: 1.5rem; right: 1.5rem; left: 1.5rem; max-width: 360px; margin-left: auto;
+  background: var(--black); color: var(--white); padding: 12px 18px;
+  border-radius: var(--radius-md); font-size: 13px; box-shadow: var(--shadow-lg);
+  opacity: 0; transform: translateY(8px);
+  transition: opacity .25s, transform .25s;
+  pointer-events: none; z-index: 999;
+}
 .toast.show { opacity: 1; transform: translateY(0); }
-.toast.ok  { background: #065f46; }
-.toast.err { background: #991b1b; }
-.success-screen { display: none; text-align: center; padding: 3rem 1.5rem; }
-.success-screen.show { display: block; }
-.success-icon { font-size: 48px; margin-bottom: 1rem; }
-.success-title { font-family: var(--font-display); font-size: 28px; letter-spacing: 2px; color: var(--white); margin-bottom: 8px; }
-.success-sub { font-size: 14px; color: var(--gray-400); margin-bottom: 1.5rem; }
-.btn-nuevo { padding: 10px 24px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); border-radius: var(--radius-md); color: var(--white); font-family: var(--font-body); font-size: 14px; cursor: pointer; transition: all .15s; }
-.btn-nuevo:hover { background: rgba(255,255,255,.14); }
+.toast.ok  { background: var(--success); }
+.toast.err { background: var(--danger); }
+
+/* ── ÉXITO ── */
+.success-screen { display: none; }
+.success-screen.show { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 3rem 1.5rem; }
+.success-icon {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--success-bg); color: var(--success);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;
+}
+.success-title { font-family: var(--font-display); font-size: 30px; letter-spacing: 1px; color: var(--black); margin-bottom: 8px; }
+.success-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 1.5rem; }
+.btn-nuevo {
+  padding: 11px 24px; background: var(--white); border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-md); color: var(--black); font-family: var(--font-body);
+  font-size: 14px; font-weight: 500; cursor: pointer;
+  transition: border-color .15s, color .15s;
+}
+.btn-nuevo:hover { border-color: var(--black); }
 </style>
 </head>
 <body>
@@ -135,8 +230,9 @@ body::before {
     </div>
   </div>
   <div class="config-banner hidden" id="configBanner">
-    ⚙ Primera vez: pegá la URL del Apps Script.
-    <input type="text" id="inputApiUrl" placeholder="https://script.google.com/macros/s/.../exec">
+    <span class="card-icon-inline" id="iconConfigBanner"></span>
+    Primera vez: pegá la URL del Apps Script.
+    <input type="text" id="inputApiUrl" placeholder="https://script.google.com/macros/s/.../exec" aria-label="URL del Apps Script">
     <button onclick="guardarApiUrl()">Guardar</button>
   </div>
   <div class="suc-guardada hidden" id="sucGuardada">
@@ -149,13 +245,16 @@ body::before {
   <div id="formContent">
     <div class="card">
       <div class="card-header">
-        <h2>🧾 Cierre de jornada</h2>
-        <p>Completar al cierre · * campos obligatorios</p>
+        <span class="card-header-icon" id="iconCierre"></span>
+        <div class="card-header-text">
+          <h2>Cierre de jornada</h2>
+          <p>Completar al cierre · * campos obligatorios</p>
+        </div>
       </div>
       <div class="card-body">
         <div class="field" id="fieldSucursal">
-          <label>Sucursal <span class="req">*</span></label>
-          <select id="sucursal" required onchange="ofrecerGuardarSucursal()">
+          <label for="sucursal">Sucursal <span class="req">*</span></label>
+          <select class="form-select" id="sucursal" required onchange="ofrecerGuardarSucursal()">
             <option value="">Elegir sucursal...</option>
             <option>01 PASEO</option><option>05 WAVE</option>
             <option>09 CIPO SAN MARTIN</option><option>10 PERITO MORENO</option>
@@ -163,34 +262,34 @@ body::before {
           </select>
           <p class="hint" id="hintGuardar" style="display:none">
             ¿Guardamos esta sucursal para esta PC?
-            <button onclick="confirmarGuardarSucursal()" style="background:none;border:none;color:#e8251a;cursor:pointer;font-size:11px;font-family:inherit;text-decoration:underline">Sí, guardar</button>
+            <button onclick="confirmarGuardarSucursal()">Sí, guardar</button>
           </p>
         </div>
         <div class="field">
-          <label>Nombre encargado/a <span class="req">*</span></label>
-          <input type="text" id="encargado" placeholder="Tu nombre...">
+          <label for="encargado">Nombre encargado/a <span class="req">*</span></label>
+          <input class="form-control" type="text" id="encargado" placeholder="Tu nombre...">
         </div>
         <div class="field">
-          <label>📅 Fecha <span class="req">*</span></label>
-          <input type="date" id="fecha">
+          <label for="fecha"><span class="field-icon" id="iconFecha"></span>Fecha <span class="req">*</span></label>
+          <input class="form-control" type="date" id="fecha">
         </div>
         <div class="section-divider"><span>Cierre operativo</span></div>
         <div class="field">
-          <label>1️⃣ ¿Cargaron todos los remitos de hoy? <span class="req">*</span></label>
+          <label>1. ¿Cargaron todos los remitos de hoy? <span class="req">*</span></label>
           <div class="radio-group">
             <label class="radio-opt"><input type="radio" name="remitos" value="Si"> Sí</label>
             <label class="radio-opt"><input type="radio" name="remitos" value="No"> No</label>
           </div>
         </div>
         <div class="field">
-          <label>2️⃣ ¿Hicieron salida a los artículos que mandaron a otro local? <span class="req">*</span></label>
+          <label>2. ¿Hicieron salida a los artículos que mandaron a otro local? <span class="req">*</span></label>
           <div class="radio-group">
             <label class="radio-opt"><input type="radio" name="salidas" value="Si"> Sí</label>
             <label class="radio-opt"><input type="radio" name="salidas" value="No"> No</label>
           </div>
         </div>
         <div class="field">
-          <label>3️⃣ ¿Tuvieron diferencia de algún cupón? <span class="req">*</span></label>
+          <label>3. ¿Tuvieron diferencia de algún cupón? <span class="req">*</span></label>
           <div class="radio-group">
             <label class="radio-opt"><input type="radio" name="diferencia" value="Si"> Sí</label>
             <label class="radio-opt"><input type="radio" name="diferencia" value="No"> No</label>
@@ -198,41 +297,47 @@ body::before {
         </div>
         <div class="section-divider"><span>Novedades</span></div>
         <div class="field">
-          <label>🔧 ¿Hay algún problema de mantenimiento?</label>
-          <p class="hint">Ej: Reflectores quemados, etc. Solo si aplica.</p>
-          <textarea id="mantenimiento" placeholder="Describir el problema..."></textarea>
+          <label for="mantenimiento"><span class="field-icon" id="iconMant"></span>¿Hay algún problema de mantenimiento?</label>
+          <p class="hint" style="margin-top:0;margin-bottom:6px">Ej: Reflectores quemados, etc. Solo si aplica.</p>
+          <textarea class="form-textarea" id="mantenimiento" placeholder="Describir el problema..."></textarea>
         </div>
         <div class="field">
-          <label>👤 ¿Faltó alguien? ¿Quién y por qué?</label>
-          <input type="text" id="ausente" placeholder="Solo completar si aplica...">
+          <label for="ausente"><span class="field-icon" id="iconAusente"></span>¿Faltó alguien? ¿Quién y por qué?</label>
+          <input class="form-control" type="text" id="ausente" placeholder="Solo completar si aplica...">
         </div>
         <div class="field">
-          <label>⭐ ¿Probaron algún franquero/a?</label>
+          <label><span class="field-icon" id="iconFranquero"></span>¿Probaron algún franquero/a?</label>
           <div id="franqueros-container"></div>
-          <button class="btn-add" id="btnAgregarFranquero" style="margin-top:.5rem">+ Agregar franquero/a</button>
+          <button class="btn-add" id="btnAgregarFranquero" style="margin-top:.5rem" type="button"></button>
         </div>
       </div>
     </div>
     <!-- PEDIDOS -->
     <div class="card">
       <div class="card-header">
-        <h2>4️⃣ Artículos para PEDIR</h2>
-        <p>Cosas que piden los clientes y no tenés stock · Solo si aplica</p>
+        <span class="card-header-icon" id="iconPedidos"></span>
+        <div class="card-header-text">
+          <h2>4. Artículos para PEDIR</h2>
+          <p>Cosas que piden los clientes y no tenés stock · Solo si aplica</p>
+        </div>
       </div>
       <div class="card-body">
         <div id="pedidos-container"></div>
-        <button class="btn-add" id="btnAgregarPedido">+ Agregar artículo para pedir</button>
+        <button class="btn-add" id="btnAgregarPedido" type="button"></button>
       </div>
     </div>
-    <!-- ROTACIÓN ✅ CAMBIADO -->
+    <!-- ROTACIÓN -->
     <div class="card">
       <div class="card-header">
-        <h2>5️⃣ Artículos para ROTAR</h2>
-        <p>Cosas que ya llegaron y hay que rotar · Solo si aplica</p>
+        <span class="card-header-icon" id="iconRotar"></span>
+        <div class="card-header-text">
+          <h2>5. Artículos para ROTAR</h2>
+          <p>Cosas que ya llegaron y hay que rotar · Solo si aplica</p>
+        </div>
       </div>
       <div class="card-body">
         <div id="repos-container"></div>
-        <button class="btn-add" id="btnAgregarRepo">+ Agregar artículo para rotar</button>
+        <button class="btn-add" id="btnAgregarRepo" type="button"></button>
       </div>
     </div>
     <!-- ENVIAR -->
@@ -246,13 +351,14 @@ body::before {
     </div>
   </div>
   <div class="success-screen" id="successScreen">
-    <div class="success-icon">✅</div>
+    <div class="success-icon" id="iconSuccess"></div>
     <div class="success-title">¡Cierre enviado!</div>
     <div class="success-sub" id="successSub"></div>
     <button class="btn-nuevo" onclick="nuevoFormulario()">Completar otro cierre</button>
   </div>
 </div>
 <div class="toast" id="toast"></div>
+<script src="croma-icons.js?v=20260708-ds"></script>
 <script>
 var API_URL  = 'https://script.google.com/macros/s/AKfycbx480OFDOoBWvIYY3dY5-yp04N6VzJktRa3xvvI_7t0Zq3l6LcMY-rW2pgcKjuj9Xwp/exec';
 var SUC_GUARDADA = localStorage.getItem('croma_sucursal') || '';
@@ -270,6 +376,20 @@ var contadores = { pedidos: 0, repos: 0, franqueros: 0 };
   document.getElementById('btnAgregarFranquero').addEventListener('click', agregarFranquero);
   document.getElementById('btnAgregarPedido').addEventListener('click', function(){ agregarBloque('pedidos-container','PEDIDO'); });
   document.getElementById('btnAgregarRepo').addEventListener('click', function(){ agregarBloque('repos-container','ROTACION'); });
+
+  /* Íconos estáticos (Design System Croma — icon() vive en croma-icons.js) */
+  document.getElementById('iconConfigBanner').innerHTML = icon('alertTriangle','icon-16');
+  document.getElementById('iconCierre').innerHTML       = icon('fileText','icon-18');
+  document.getElementById('iconFecha').innerHTML        = icon('calendar','icon-14');
+  document.getElementById('iconMant').innerHTML         = icon('wrench','icon-14');
+  document.getElementById('iconAusente').innerHTML      = icon('user','icon-14');
+  document.getElementById('iconFranquero').innerHTML    = icon('userPlus','icon-14');
+  document.getElementById('iconPedidos').innerHTML      = icon('package','icon-18');
+  document.getElementById('iconRotar').innerHTML        = icon('refresh','icon-18');
+  document.getElementById('iconSuccess').innerHTML      = icon('circleCheck','icon-24');
+  document.getElementById('btnAgregarFranquero').innerHTML = icon('plus','icon-14') + ' Agregar franquero/a';
+  document.getElementById('btnAgregarPedido').innerHTML    = icon('plus','icon-14') + ' Agregar artículo para pedir';
+  document.getElementById('btnAgregarRepo').innerHTML      = icon('plus','icon-14') + ' Agregar artículo para rotar';
 })();
 function guardarApiUrl() {
   var url = document.getElementById('inputApiUrl').value.trim();
@@ -277,7 +397,7 @@ function guardarApiUrl() {
   API_URL = url;
   localStorage.setItem('croma_api_url', url);
   document.getElementById('configBanner').classList.add('hidden');
-  toast('URL guardada ✓', 'ok');
+  toast('URL guardada', 'ok');
 }
 function ofrecerGuardarSucursal() {
   var val = document.getElementById('sucursal').value;
@@ -292,7 +412,7 @@ function confirmarGuardarSucursal() {
   document.getElementById('sucGuardada').classList.remove('hidden');
   document.getElementById('fieldSucursal').style.display = 'none';
   document.getElementById('hintGuardar').style.display = 'none';
-  toast('Sucursal guardada para esta PC ✓', 'ok');
+  toast('Sucursal guardada para esta PC', 'ok');
 }
 function cambiarSucursal() {
   localStorage.removeItem('croma_sucursal');
@@ -309,14 +429,14 @@ function agregarFranquero() {
   div.className = 'franquero-block';
   div.id = 'block-' + id;
   div.innerHTML =
-    '<button class="btn-remove" data-bid="block-'+id+'" onclick="quitarBloque(this)">✕ quitar</button>' +
-    '<div class="franquero-block-title">Franquero/a ' + n + '</div>' +
-    '<div class="franquero-field"><label>Nombre</label><input type="text" id="nombre-'+id+'" placeholder="Nombre del franquero/a..."></div>' +
+    '<div class="franquero-block-title"><span>Franquero/a ' + n + '</span>' +
+    '<button class="btn-remove" type="button" data-bid="block-'+id+'" onclick="quitarBloque(this)" aria-label="Quitar franquero/a ' + n + '">' + icon('x','icon-12') + ' Quitar</button></div>' +
+    '<div class="franquero-field"><label for="nombre-'+id+'">Nombre</label><input type="text" id="nombre-'+id+'" placeholder="Nombre del franquero/a..."></div>' +
     '<div class="franquero-eval"><label>¿Cómo trabajó?</label>' +
     '<div class="eval-radio-group">' +
-    '<label class="eval-opt"><input type="radio" name="eval-'+id+'" value="Si"> 👍 Bien</label>' +
-    '<label class="eval-opt"><input type="radio" name="eval-'+id+'" value="Regular"> 😐 Regular</label>' +
-    '<label class="eval-opt"><input type="radio" name="eval-'+id+'" value="No"> 👎 No apto</label>' +
+    '<label class="eval-opt"><input type="radio" name="eval-'+id+'" value="Si"> Bien</label>' +
+    '<label class="eval-opt"><input type="radio" name="eval-'+id+'" value="Regular"> Regular</label>' +
+    '<label class="eval-opt"><input type="radio" name="eval-'+id+'" value="No"> No apto</label>' +
     '</div></div>';
   document.getElementById('franqueros-container').appendChild(div);
 }
@@ -343,15 +463,15 @@ function agregarBloque(containerId, tipo) {
   div.className = 'art-block';
   div.id = 'block-' + id;
   div.innerHTML =
-    '<button class="btn-remove" data-bid="block-'+id+'" onclick="quitarBloque(this)">✕ quitar</button>' +
-    '<div class="art-block-title">' + label + '</div>' +
+    '<div class="art-block-title"><span>' + label + '</span>' +
+    '<button class="btn-remove" type="button" data-bid="block-'+id+'" onclick="quitarBloque(this)" aria-label="Quitar ' + label + '">' + icon('x','icon-12') + ' Quitar</button></div>' +
     '<div class="art-grid">' +
-    '<div class="art-field"><label>COD</label><input type="text" id="cod-'+id+'" placeholder="QK142" style="text-transform:uppercase"></div>' +
-    '<div class="art-field"><label>Talle</label><input type="text" id="talle-'+id+'" placeholder="M / 060"></div>' +
-    '<div class="art-field"><label>Color</label><input type="text" id="color-'+id+'" placeholder="Navy"></div>' +
-    '<div class="art-field"><label>Cantidad</label><input type="text" id="cant-'+id+'" placeholder="2" inputmode="numeric"></div>' +
+    '<div class="art-field"><label for="cod-'+id+'">COD</label><input type="text" id="cod-'+id+'" placeholder="QK142" style="text-transform:uppercase"></div>' +
+    '<div class="art-field"><label for="talle-'+id+'">Talle</label><input type="text" id="talle-'+id+'" placeholder="M / 060"></div>' +
+    '<div class="art-field"><label for="color-'+id+'">Color</label><input type="text" id="color-'+id+'" placeholder="Navy"></div>' +
+    '<div class="art-field"><label for="cant-'+id+'">Cantidad</label><input type="text" id="cant-'+id+'" placeholder="2" inputmode="numeric"></div>' +
     '</div>' +
-    '<div class="obs-field"><label>Observación</label><input type="text" id="obs-'+id+'" placeholder="Urgente, para vitrina..."></div>';
+    '<div class="obs-field"><label for="obs-'+id+'">Observación</label><input type="text" id="obs-'+id+'" placeholder="Urgente, para vitrina..."></div>';
   document.getElementById(containerId).appendChild(div);
 }
 function quitarBloque(btn) {
@@ -387,7 +507,7 @@ function toast(msg, tipo) {
   setTimeout(function(){ t.className = 'toast'; }, 3500);
 }
 async function enviarFormulario() {
-  if (!API_URL) { toast('⚠ Configurá la URL del Apps Script primero', 'err'); return; }
+  if (!API_URL) { toast('Configurá la URL del Apps Script primero', 'err'); return; }
   var suc = SUC_GUARDADA || document.getElementById('sucursal').value;
   var enc = document.getElementById('encargado').value.trim();
   var fecha = document.getElementById('fecha').value;
@@ -395,7 +515,7 @@ async function enviarFormulario() {
   var salidas = getRadio('salidas');
   var diferencia = getRadio('diferencia');
   if (!suc || !enc || !fecha || !remitos || !salidas || !diferencia) {
-    toast('⚠ Completá todos los campos obligatorios', 'err'); return;
+    toast('Completá todos los campos obligatorios', 'err'); return;
   }
   var datos = {
     sucursal: suc, encargado: enc, fecha: fecha,
