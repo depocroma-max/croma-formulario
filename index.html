@@ -484,13 +484,16 @@ function leerBloques(prefix, container) {
   document.getElementById(container).querySelectorAll('.art-block').forEach(function(b) {
     var idB = b.id.replace('block-','');
     var cod = document.getElementById('cod-'+idB);
-    if (cod && cod.value.trim()) {
+    var obs = document.getElementById('obs-'+idB);
+    var codVal = cod ? cod.value.trim() : '';
+    var obsVal = obs ? obs.value.trim() : '';
+    if (codVal || obsVal) {
       result.push({
-        cod: cod.value.trim().toUpperCase(),
+        cod: codVal.toUpperCase(),
         talle: (document.getElementById('talle-'+idB)||{}).value || '',
         color: (document.getElementById('color-'+idB)||{}).value || '',
         cantidad: (document.getElementById('cant-'+idB)||{}).value || '1',
-        obs: (document.getElementById('obs-'+idB)||{}).value || ''
+        obs: obsVal
       });
     }
   });
