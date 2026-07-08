@@ -82,6 +82,17 @@ body::before {
 .section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,.08); }
 .art-block { border: 1px solid rgba(255,255,255,.1); border-radius: var(--radius-md); padding: .875rem; margin-bottom: .75rem; background: rgba(255,255,255,.03); }
 .art-block-title { font-size: 10px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; margin-bottom: .75rem; }
+.franquero-block { border: 1px solid rgba(255,255,255,.1); border-radius: var(--radius-md); padding: .875rem; margin-bottom: .75rem; background: rgba(255,255,255,.03); }
+.franquero-block-title { font-size: 10px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; margin-bottom: .75rem; }
+.franquero-field { margin-bottom: .75rem; }
+.franquero-field label { font-size: 10px; color: var(--gray-600); display: block; margin-bottom: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+.franquero-field input { width: 100%; padding: 7px 10px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-sm); font-size: 13px; font-family: var(--font-body); color: var(--white); }
+.franquero-field input::placeholder { color: rgba(255,255,255,.2); }
+.franquero-field input:focus { outline: none; border-color: rgba(232,37,26,.5); }
+.franquero-eval label { font-size: 10px; color: var(--gray-600); display: block; margin-bottom: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+.eval-radio-group { display: flex; gap: 14px; flex-wrap: wrap; }
+.eval-opt { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--white); cursor: pointer; }
+.eval-opt input { accent-color: var(--accent); width: 15px; height: 15px; }
 .art-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .art-field label { font-size: 10px; color: var(--gray-600); display: block; margin-bottom: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
 .art-field input { width: 100%; padding: 7px 10px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-sm); font-size: 13px; font-family: var(--font-body); color: var(--white); transition: border .15s; }
